@@ -18,28 +18,25 @@
 // Inputs
 DigitalIn SW2(BTN1_PIN);
 DigitalIn SW3(BTN2_PIN);
-DigitalInOut SW4(BTN3_PIN,PIN_INPUT,PullDown,0);
-DigitalInOut SW5(BTN4_PIN,PIN_INPUT,PullDown,0);
+//DigitalInOut SW4(BTN3_PIN,PIN_INPUT,PullDown,0);
+//DigitalInOut SW5(BTN4_PIN,PIN_INPUT,PullDown,0);
+BusInOut switches(BTN3_PIN, BTN4_PIN);
 
 // Outputs
-DigitalOut ledRed(TRAF_RED1_PIN);
-DigitalOut ledYel(TRAF_YEL1_PIN);
-DigitalOut ledGrn(TRAF_GRN1_PIN);
+BusOut leds(TRAF_RED1_PIN, TRAF_YEL1_PIN, TRAF_GRN1_PIN);
 
 int main()
 {
+    switches.input();
+    switches.mode(PinMode::PullDown);
+    
     while (true) {
-        if (SW4 == 1) {
-            ledRed = 1;
+        if (switches == 0b11) {
+            leds = 0b111;
         } else {
-            ledRed = 0;
+           leds = 0b000;
         }
 
-        if (SW5.read() == 1) {
-            ledYel = 1;
-        } else {
-            ledYel = 0;
-        }
     }
 }
 
