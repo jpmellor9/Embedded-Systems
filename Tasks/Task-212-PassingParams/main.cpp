@@ -32,8 +32,9 @@ int main() {
     complexDisplay("p-q", Subtraction);
 
     ComplexNumber_C Mag = complexMag(p);
-    printf("mag = %f\n", Mag);
-
+    printf("mag p = %f\n", Mag);
+    Mag = complexMag(q);
+    printf("mag q = %f\n", Mag);
     while (true) {
     }
 }
