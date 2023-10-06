@@ -1,4 +1,5 @@
 #include "uop_msb.h"
+#include <cstdio>
 using namespace uop_msb;
 
 // Hardware Definitions
@@ -12,7 +13,10 @@ DigitalOut ledRed(TRAF_RED1_PIN);
 
 // Timer(modified version from Timer)
 TimerCompat tmr1;
+TimerCompat tmr_debounce;
 
+int last_sw;
+int curr;
 int main()
 {
     //Time how long it takes to perform a printf
@@ -26,21 +30,31 @@ int main()
 
     //Now to use a timer to implement a delay
     tmr1.start();
+    last_sw = SW_BLUE;
+    
     while (true) {
         //Wait for switch press
-        while (SW_BLUE == 0);
-
-        //Turn on LED
-        ledRed = 1;
+        if (SW_BLUE != last_sw){
+        tmr_debounce.start();
+            if (tmr_debounce.elapsed_time() >= 300ms){
+             tmr_debounce.stop();
+                last_sw = SW_BLUE;
+                if (SW_BLUE == 0){
+                    //Turn on LED
+                    ledRed = !ledRed;
+                    }
+        }
+        }
+       
 
         //Wait for 500ms
-        tmr1.reset();
-        while (tmr1.elapsed_time() < 500ms); //How about this for C++ magic :)
+       // tmr1.reset();
+       // while (tmr1.elapsed_time() < 500ms); //How about this for C++ magic :)
 
-        wait_us(500000);
+     //   wait_us(500000);
 
         //Turn off LED
-        ledRed = 0;
+        //ledRed = 0;
     }
 }
 
