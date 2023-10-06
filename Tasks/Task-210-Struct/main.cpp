@@ -1,4 +1,5 @@
 #include "mbed.h"
+#include <type_traits>
 
 // Date Type ComplexNumber_C
 typedef struct {
@@ -24,6 +25,16 @@ int main() {
     // Calculate the complex sum of p and q and store in y
     // Use printf to display as a complex number (hint: you need two placeholders)
     
+    ComplexNumber_C y1;
+    
+
+    y1.real = p.real + q.real;
+    y1.imag = p.imag + q.imag;
+
+    printf("real = %f imaginary = %f\n", y1.real, y1.imag);
+    
     while (true) {
+       // printf("real = %f imaginary = %f\n", y1.real, y1.imag);
     }
+    
 }

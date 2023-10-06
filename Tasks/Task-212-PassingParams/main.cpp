@@ -1,20 +1,7 @@
-#include "mbed.h"
+#include "stdio.h"
+#include "Complex_C.hpp"
+#include <cstdio>
 
-typedef struct {
-  double real;
-  double imag;
-} ComplexNumber_C;
-
-ComplexNumber_C complexAdd(const ComplexNumber_C a, const ComplexNumber_C b) {
-    ComplexNumber_C y = a;
-    y.real += b.real;
-    y.imag += b.imag;
-    return y;
-}
-
-void complexDisplay(const char *strName, const ComplexNumber_C u) {
-    printf("%s = %f + j%f\n", strName, u.real, u.imag);
-}
 
 // TASK - write and test complexConjugate, complexNegate, complexSubtract, complexMagnitude, complexMultiply and complexDivide
 
@@ -30,7 +17,23 @@ int main() {
     ComplexNumber_C sum = complexAdd(p, q);
     complexDisplay("p+q", sum);
 
-    
+    ComplexNumber_C Conjugate = complexConjugate(p);
+    complexDisplay("conjugate p", Conjugate);
+    Conjugate = complexConjugate(q);
+    complexDisplay("conjugate q", Conjugate);
+
+    ComplexNumber_C Negate = complexNegate(p);
+    complexDisplay("Negate p", Negate);
+    Negate = complexNegate(q);
+    complexDisplay("Negate q", Negate);
+
+    Negate = complexNegate(q);
+    ComplexNumber_C Subtraction = complexAdd(p, Negate);
+    complexDisplay("p-q", Subtraction);
+
+    ComplexNumber_C Mag = complexMag(p);
+    printf("mag = %f\n", Mag);
+
     while (true) {
     }
 }
