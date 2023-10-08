@@ -13,7 +13,13 @@ int main() {
     ComplexNumber_C q = {1.0, 1.0};
     complexDisplay("p", p);
     complexDisplay("q", q);
- 
+
+    complexNegateInplace(p);
+    complexDisplay("p", p);
+
+    complexConjugateInplace(q);
+    complexDisplay("q", q);
+
     ComplexNumber_C sum = complexAdd(p, q);
     complexDisplay("p+q", sum);
 
@@ -35,6 +41,13 @@ int main() {
     printf("mag p = %f\n", Mag);
     Mag = complexMag(q);
     printf("mag q = %f\n", Mag);
+
+    ComplexNumber_C Mul = complexMul(p, q);
+    complexDisplay("PxQ", Mul);
+
+    ComplexNumber_C Div = complexDiv(p, q);
+    complexDisplay("P/Q", Div);
+
     while (true) {
     }
 }
