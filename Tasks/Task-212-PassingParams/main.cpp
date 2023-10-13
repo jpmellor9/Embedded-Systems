@@ -48,6 +48,9 @@ int main() {
     ComplexNumber_C Div = complexDiv(p, q);
     complexDisplay("P/Q", Div);
 
+    complexConjugateInplace(p);
+    complexDisplay("P", p);
+
     while (true) {
     }
 }

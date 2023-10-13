@@ -68,7 +68,7 @@ public:
     }
     
     //Add
-    ComplexNumber addedTo(const ComplexNumber& c) {
+    ComplexNumber addedTo(const ComplexNumber &c) {
         return ComplexNumber(this->real+c.real, this->imag+c.imag);
     }
     

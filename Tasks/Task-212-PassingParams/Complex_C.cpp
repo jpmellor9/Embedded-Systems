@@ -51,7 +51,7 @@ void complexNegateInplace(ComplexNumber_C& u) {
     u.real = -u.real;
 }
 
-void complexConjugateInplace(ComplexNumber_C& u){  
+void complexConjugateInplace(ComplexNumber_C &u){  
     u.real = u.real;
     u.imag = -u.imag;
 }

@@ -14,6 +14,6 @@ extern ComplexNumber_C complexMag(const ComplexNumber_C a);
 extern ComplexNumber_C complexMul(const ComplexNumber_C a, const ComplexNumber_C b);
 extern ComplexNumber_C complexDiv(const ComplexNumber_C a, const ComplexNumber_C b);
 extern void complexNegateInplace(ComplexNumber_C& u);
-extern void complexConjugateInplace(ComplexNumber_C& u);
+extern void complexConjugateInplace(ComplexNumber_C &u);
 
 #endif
