@@ -71,6 +71,53 @@ public:
     ComplexNumber addedTo(const ComplexNumber &c) {
         return ComplexNumber(this->real+c.real, this->imag+c.imag);
     }
+
+    void subtract(const ComplexNumber &c){
+        this->real -= c.real;
+        this->imag -= c.imag;
+    }
+
+    ComplexNumber subtractfrom(const ComplexNumber &c){
+        return ComplexNumber(this->real-c.real, this->imag-c.imag);
+    }
+
+    void multiply(const ComplexNumber &c){
+        this->real = (this->real*c.real) + (-1*(this->imag*c.imag));
+        this->imag = (this->real*c.imag) + (this->imag*c.imag);
+    }
+
+    ComplexNumber multiplywith(const ComplexNumber &c){
+        return ComplexNumber((this->real*c.real) + (-1*(this->imag*c.imag)), (this->real*c.imag) + (this->imag*c.imag));
+    }
+
+    void divide(const ComplexNumber &c){
+       ComplexNumber com1 = ComplexNumber(this->real, this->imag);
+       ComplexNumber com2 = ComplexNumber(c.real, c.imag);
+       ComplexNumber con = com2.conjugated();
+       ComplexNumber mulnum = com1.multiplywith(con);
+       ComplexNumber muldenom = com2.multiplywith(con);
+       this->real = mulnum.real/muldenom.real;
+       this->imag = mulnum.imag/muldenom.imag;
+    }
+
+    ComplexNumber dividewith(const ComplexNumber &c){
+       ComplexNumber com1 = ComplexNumber(this->real, this->imag);
+       ComplexNumber com2 = ComplexNumber(c.real, c.imag);
+       ComplexNumber con = com2.conjugated();
+       ComplexNumber mulnum = com1.multiplywith(con);
+       ComplexNumber muldenom = com2.multiplywith(con);
+       ComplexNumber div = ComplexNumber(mulnum.real/muldenom.real, mulnum.imag/muldenom.imag);
+       return ComplexNumber(this->real = div.real, this->imag = div.imag); // check this
+    }
+
+    void negate(){
+        this->real *= -1;
+        this->imag *= -1;
+    }
+
+    ComplexNumber negated(){
+        return ComplexNumber(-1*this->real, -1*this->imag);
+    }
     
     //Display
     void display() {
