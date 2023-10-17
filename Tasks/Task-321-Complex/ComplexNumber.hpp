@@ -107,7 +107,7 @@ public:
        ComplexNumber mulnum = com1.multiplywith(con);
        ComplexNumber muldenom = com2.multiplywith(con);
        ComplexNumber div = ComplexNumber(mulnum.real/muldenom.real, mulnum.imag/muldenom.imag);
-       return ComplexNumber(this->real = div.real, this->imag = div.imag); // check this
+       return ComplexNumber(div.real, div.imag); // check this
     }
 
     void negate(){
