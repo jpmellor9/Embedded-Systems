@@ -20,6 +20,15 @@ TrafficLight::~TrafficLight()
     greenLED = 0;
 } 
 
+void TrafficLight::setFlashSpeed(double sp_flash){
+    this -> flashSpeed = sp_flash;
+    flashYellow(true);
+}
+
+double TrafficLight::getFlashSpeed(){
+    
+    return(this -> flashSpeed);
+}
 // Interrupt Service Routine (ISR)
 void TrafficLight::yellowFlashISR() {
     yellowLED = !yellowLED;
@@ -30,7 +39,7 @@ void TrafficLight::flashYellow(bool flash) {
     t.detach(); //Turn off ticker
     if (flash) {
         //Turn on ticker ..... Hmmm, interrupts!
-        t.attach(callback(this, &TrafficLight::yellowFlashISR), 200ms);
+        t.attach(callback(this, &TrafficLight::yellowFlashISR), flashSpeed);
     }
 }
 

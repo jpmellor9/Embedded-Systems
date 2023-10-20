@@ -9,11 +9,12 @@ TrafficLight::LIGHT_STATE s;
 int main()
 {
     while (true) {
-
+        lights.setFlashSpeed(100);
         //Wait for switch press
         while (sw==0);
 
         //Update lights
+        
         s = lights.nextState();
 
         //Debounce switch
