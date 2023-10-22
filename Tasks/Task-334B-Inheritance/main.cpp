@@ -35,7 +35,7 @@ class Flashy : DigitalOut {
         enable(false);
     }
     //OVERLOAD constructor
-    Flashy(PinName pin) : Flashy(pin, 500ms) {
+    Flashy(PinName pin) : Flashy(pin, 50ms) {
     }
     ~Flashy() {
         enable(false);

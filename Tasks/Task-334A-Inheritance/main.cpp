@@ -8,6 +8,7 @@ int main()
     DoubleNumber  d0(3.0);
     ComplexNumber c1;
     DoubleNumber  d1;
+    ComplexNumber c2;
     
     //This uses the operator= function
     d1 = 5.0;
@@ -18,7 +19,7 @@ int main()
     //DANGER! THIS IS NOT AS IT LOOKS
     //By default, the compiler creates an = operator!
     c1 = c0;
-
+    c1+=c0;
     //Write as a string, but note asString() comes from the parent class
     cout << c1.asString() << endl;
     

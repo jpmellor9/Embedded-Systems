@@ -6,9 +6,9 @@ int main()
     //Constructor Function overloading 
     ComplexNumber c0(1.0, 2.0);
     DoubleNumber  d0(3.0);
-    ComplexNumber c1;
+    ComplexNumber c1(2.0, 3.0);
     DoubleNumber  d1;
-    
+    ComplexNumber c2;
     //This uses the operator= function
     d1 = 5.0;
 
@@ -16,7 +16,7 @@ int main()
     cout << d1.asString() << endl;
 
     //Now overrides the default =
-    c1 = c0;
+    c2 = c1 + c0;
 
     //Now overrides the parent asString
     cout << c1.asString() << endl;
