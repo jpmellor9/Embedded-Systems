@@ -48,7 +48,7 @@ int main()
     while (true) 
     {
         //Create an Array of type DataObject
-        DataObject *buffer = new DataObject[N];
+        DataObject *buffer = new DataObject[N];`
         if (!buffer) {
             cout << "Not enough memory" << endl;
             wait_us(5000000);
