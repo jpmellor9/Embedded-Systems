@@ -52,9 +52,10 @@ void task1()
 
     printf("Task 1 Waiting to start\n");
     ThisThread::flags_wait_any(4);
-    printf("Task 2 starts\n");
+    printf("Task 1 starts\n");
     ThisThread::sleep_for(50ms);
     ThisThread::flags_clear(4); //Switch bounce can send multiples
+    
 
     while(true) {
 
@@ -62,7 +63,7 @@ void task1()
         red_led = !red_led;
 
         // Signal thread 2
-        t2.flags_set(1); //osSignalSet(t2.get_id(), 1);    
+       // t2.flags_set(1); //osSignalSet(t2.get_id(), 1);    
         ThisThread::sleep_for(50ms);
 
         sw.waitForRelease();
@@ -70,7 +71,7 @@ void task1()
 
         //Wait for thread 2
         printf("Thread 1 waiting for signal\n");
-        ThisThread::flags_wait_any(1);     
+       // ThisThread::flags_wait_any(1);     
     }    
 }
 
@@ -78,7 +79,7 @@ void task2()
 {
     DigitalOut green_led(TRAF_GRN1_PIN);  
     PushSwitch sw(BTN2_PIN);
-    
+
     printf("Task 2 Waiting to start\n");
     ThisThread::flags_wait_any(4);
     printf("Task 2 starts\n");
@@ -87,21 +88,50 @@ void task2()
 
     while(true) {
 
-        //Wait for thread 1
-        printf("Thread 2 waiting for signal\n");
-        ThisThread::flags_wait_any(1); 
-
         sw.waitForPress();
         green_led = !green_led;
 
-        // Signal thread 1 
-        t1.flags_set(1);    //osSignalSet(t1.get_id(), 1);   
+        // Signal thread 2
+       // t2.flags_set(1); //osSignalSet(t2.get_id(), 1);    
         ThisThread::sleep_for(50ms);
 
         sw.waitForRelease();
         ThisThread::sleep_for(50ms);
-    }      
+
+        //Wait for thread 2
+        printf("Thread 1 waiting for signal\n");
+       // ThisThread::flags_wait_any(1);     
+    }    
 }
+
+//void task2() 
+//{
+ //   DigitalOut green_led(TRAF_GRN1_PIN);  
+  //  PushSwitch sw(BTN2_PIN);
+    
+  //  printf("Task 2 Waiting to start\n");
+  //  ThisThread::flags_wait_any(4);
+   // printf("Task 2 starts\n");
+   // ThisThread::sleep_for(50ms);
+   // ThisThread::flags_clear(4); //Switch bounce can send multiples
+
+ //   while(true) {
+
+        //Wait for thread 1
+  //      printf("Thread 2 waiting for signal\n");
+  //      ThisThread::flags_wait_any(1); 
+
+  //      sw.waitForPress();
+  //      green_led = !green_led;
+
+        // Signal thread 1 
+ //       t1.flags_set(1);    //osSignalSet(t1.get_id(), 1);   
+ //       ThisThread::sleep_for(50ms);
+
+  //      sw.waitForRelease();
+   //     ThisThread::sleep_for(50ms);
+ //   }      
+//}
 
 void blueISR_rise()
 {

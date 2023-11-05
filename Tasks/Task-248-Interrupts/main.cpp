@@ -10,7 +10,6 @@ int counter=0;
 InterruptIn btnA(BTN1_PIN);
 InterruptIn btnB(BTN2_PIN);
 Ticker tick;
-
 DigitalOut redLED(TRAF_RED1_PIN);       //Red Traffic 1
 DigitalOut yellowLED(TRAF_YEL1_PIN);    //Yellow Traffic 1
 DigitalOut greenLED(TRAF_GRN1_PIN);     //Green Traffic 1

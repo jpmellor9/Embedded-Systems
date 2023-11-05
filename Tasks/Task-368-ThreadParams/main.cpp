@@ -50,4 +50,6 @@ int main(void)
     t3.start(callback(FlashLED2, &p2));
 
     t1.join();
+    t2.join();
+    t3.join();
 }   
