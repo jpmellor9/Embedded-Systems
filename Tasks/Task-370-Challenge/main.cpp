@@ -5,9 +5,9 @@ using namespace uop_msb;
 //Used this to 
 Ticker tick;
 AnalogIn LDR(AN_LDR_PIN);
-void tickISR_rise();
+void tickISR();
 void task1();
-uint16_t runningsum = 0;
+double runningsum = 0;
 double mean = 0;
 DigitalOut redLED(TRAF_RED1_PIN);  
 
@@ -17,7 +17,7 @@ osThreadId_t mainThreadID;
 
 int main(void)
 {
-tick.attach(&tickISR_rise, 2000ms); 
+tick.attach(&tickISR, 1ms); 
 
 t1.start(task1);
 
@@ -34,16 +34,20 @@ mainThreadID = ThisThread::get_id();
       
        ThisThread::sleep_for(1000ms);
        redLED = !redLED;
+       mean = runningsum/1000;
+       runningsum = 0;
+       printf("LDR mean = %f\n", mean);
+
     }
     
 }  
 
-void tickISR_rise()
+void tickISR()
 {
     t1.flags_set(1);
 }
 
-void sum(uint16_t* runningsum)
+void task1()
 {
     printf("enter\n");
 
@@ -51,7 +55,7 @@ void sum(uint16_t* runningsum)
         ThisThread::flags_wait_any(1);
         
          uint16_t ldr = LDR.read_u16();
-         runnigsum = *runninsum + ldr;
+         runningsum = runningsum + ldr;
          
         
         }
