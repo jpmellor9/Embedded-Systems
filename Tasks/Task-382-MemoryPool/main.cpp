@@ -5,6 +5,7 @@ using namespace uop_msb;
 #include <stdio.h>
 #include <ctype.h>
 #include "sample_hardware.hpp"
+#include "PushSwitch.hpp"
 
 #define SWITCH1_RELEASE 1
 
@@ -39,13 +40,13 @@ Queue<message_t, 16> queue;
 
 // Call this on precise intervals
 void switchISR() {
-    
     //Read sample - make a copy
     float sample = 0.01f*(float)(rand() % 100);
 
     //Grab switch state
     uint32_t switch1State = buttonA;
     uint32_t switch2State = buttonB;
+
     
     //Allocate a block from the memory pool (non blocking)
     message_t* message = mpool.try_alloc();
