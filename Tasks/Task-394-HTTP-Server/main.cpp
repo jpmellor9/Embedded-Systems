@@ -22,6 +22,8 @@ using namespace std;
 "    <div style=\"margin:auto\">" "\r\n"                         \
 "      <h1>POT Value</h1>" "\r\n"                              \
 "      <p>{{0}}</p>" "\r\n"                                 \
+"      <h1>LDR Value</h1>" "\r\n"                              \
+"      <a>{{1}}</a>" "\r\n"                                 \
 "    </div>" "\r\n"                                              \
 "  </body>" "\r\n"                                               \
 "</html>" "\r\n"
@@ -47,7 +49,7 @@ EthernetInterface net;
 LCD_16X2_DISPLAY disp;
 DigitalOut lcdBacklight(LCD_BKL_PIN);
 AnalogIn pot(AN_POT_PIN);
-
+AnalogIn ldr(AN_LDR_PIN);
 int main()
 {
     printf("\r\nBasic HTTP server example\r\n");
@@ -100,7 +102,7 @@ int main()
 
         char buff[6];
         sprintf(buff, "%5.3f", p);  //Convert float to string
-        
+
         //Construct response string (in C++)
         string html = string(HTTP_TEMPLATE);
         size_t index = html.find("{{0}}");  //Find placeholder {{0}}
@@ -108,6 +110,19 @@ int main()
             html.replace(index, 5, buff);   //Replace with pot value string
         }
         cout << html << endl;               //For debug purposes
+
+        float a = ldr;  //Get pot value
+
+        char buff2[6];
+        sprintf(buff2, "%5.3f", a);  //Convert float to string
+
+         //Construct response string (in C++)
+        //string html2 = string(HTTP_TEMPLATE);
+        size_t index2 = html.find("{{1}}");  //Find placeholder {{0}}
+        if (index2) {
+            html.replace(index2, 5, buff2);   //Replace with pot value string
+        }
+        
 
         //Send response string (blocking until completed)
         printf("%s STRING LENGTH is: %d\n\r", html.c_str(), strlen(html.c_str())); // the rest of this line to use Flash Silicon *see notes above line number 35" myHTTP,strlen(myHTTP));
