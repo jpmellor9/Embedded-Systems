@@ -12,7 +12,9 @@ DigitalOut led2(LED2);
 
 //Event queue for main
 EventQueue mainQueue;
+EventQueue secondQueue;
 
+Thread t2;
 //Flash a given LED - parameter passed by reference
 void flashLed(DigitalOut& led) {
     led = !led;
@@ -20,17 +22,22 @@ void flashLed(DigitalOut& led) {
  
 void flashLed1() {
     // This is NOT on the main thread
-    flashLed(led1);                         
+    mainQueue.call(flashLed, led1);                      
     //Dispatch printf on main thread
-    mainQueue.call(printf, "Button A\n");    
+    secondQueue.call(printf, "Button A\n");    
 }
 
 void flashLed2() {
-    flashLed(led2);     
-    mainQueue.call(printf, "Button B\n");
+    mainQueue.call(flashLed, led2);       
+    secondQueue.call(printf, "Button B\n");
+}
+
+void secondthread(){
+    secondQueue.dispatch_forever();
 }
 
 int main() {  
+    t2.start(secondthread);
     PressAndRelease btnA(BTN1_PIN, &flashLed1);
     PressAndRelease btnB(BTN2_PIN, &flashLed2);
     //Start main queue - dispatch

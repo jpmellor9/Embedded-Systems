@@ -8,7 +8,7 @@ private:
     //Composition
     Thread t1;                              
     InterruptIn button;                     
-
+   
     // ISR for rising edge
     void button_rise() {
         t1.flags_set(BTN_PRESS);
@@ -42,8 +42,10 @@ private:
 
 public:
     PressAndRelease(PinName buttonPin, funcPointer_t press=NULL) : button(buttonPin), onPress(press) {
+        //t1.set_priority(osPriorityRealtime);
         t1.start(callback(this, &PressAndRelease::handler));
         button.rise(callback(this, &PressAndRelease::button_rise));  
     }
 };
 
+ 
