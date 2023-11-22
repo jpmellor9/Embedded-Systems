@@ -17,6 +17,9 @@ class ComplexNumber {
 private:
     double real;
     double imag;
+
+public:
+    double nonsense;
     
 public:
     //Default constructor
