@@ -6,30 +6,37 @@ using namespace uop_msb;
 #include <ctype.h>
 #include "sample_hardware.hpp"
 
+
 #define SWITCH1_RELEASE 1
 
 void thread1();
 void thread2();
 void switchISR();
 
+AnalogIn ldr(AN_LDR_PIN);
 
 //Threads
 Thread t1;
-
+ EnvSensor env;
 //Class type
 class message_t {
+
 public:    
-    float fValue;    
-    int sw1State;
-    int sw2State;
-    
+    EnvSensor env;
+    float temp;
+    float pres;
+    float hum;
+    float light;
     //Constructor
-    message_t(float f, int s1, int s2) {
-        fValue = f;
-        sw1State = s1;
-        sw2State = s2;    
+    message_t(float t, float p, float h, float l) {
+        this->temp = 0;
+        this->pres = 0;
+        this->hum = 0;
+        this->light = 0;
     }
 };
+
+
  
 //Memory Pool - with capacity for 16 message_t types
 // MemoryPool<message_t, 16> mpool;
@@ -43,11 +50,11 @@ Mail<message_t, 16> mail_box;
 void switchISR() {
     
     //Read sample - make a copy
-    float sample = 0.01f*(float)(rand() % 100);
+   // float sample = 0.01f*(float)(rand() % 100);
 
     //Grab switch state
-    uint32_t switch1State = buttonA;
-    uint32_t switch2State = buttonB;
+   // uint32_t switch1State = buttonA;
+    //uint32_t switch2State = buttonB;
     
     //Allocate a block from the memory pool (non blocking version)
     //For a thread context, there is also a blocking version (with timeout)
@@ -59,9 +66,10 @@ void switchISR() {
     }
     
     //Fill in the data
-    message->fValue   = sample;
-    message->sw1State = switch1State;
-    message->sw2State = switch2State;
+    message->temp   = env.getTemperature();;
+    message->pres = env.getPressure();
+    message->hum = env.getHumidity();
+    message->light = ldr;
     
     //Write pointer to the queue
     osStatus stat = mail_box.put(message);    //Note we are sending the "pointer" not the data
@@ -103,14 +111,14 @@ void thread1()
         //Check status
         if (payload) {
             //Make a copy
-            message_t msg(payload->fValue, payload->sw1State, payload->sw2State);
+            message_t msg(payload->temp, payload->pres, payload->hum, payload->light);
             //We are done with this, so give back the memory to the pool
             mail_box.free(payload);
             
             //Echo to the terminal
-            printf("Float Value: %.2f\t",    msg.fValue);
-            printf("SW1: %u\t",              msg.sw1State);
-            printf("SW2: %u\n\r",            msg.sw2State);
+            printf("Float Value: %.2f\t",    msg.temp);
+            printf("SW1: %f\t",              msg.light);
+            printf("SW2: %f\n\r",            msg.hum);
         } else {
             //ERROR HANDLER TO BE DONE
 
