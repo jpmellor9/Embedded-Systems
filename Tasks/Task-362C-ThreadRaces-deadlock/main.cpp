@@ -25,7 +25,7 @@ Thread t2;
 //Shared mutable state
 volatile long long counter = 0; //Volatile means it must be stored in memory
 //Associated MUTEX
-Mutex counterLock;
+Mutex Lock;
 
 
 //Increment the shared variable 
@@ -34,7 +34,7 @@ void countUp()
     //RED MEANS THE COUNT UP FUNCTION IS IN ITS CRITICAL SECTION
     green_led = 1;
     for (unsigned int n=0; n<N; n++) {
-        counterLock.lock();
+        Lock.lock();
         counter++; 
         counter++;
         counter++;
@@ -45,7 +45,7 @@ void countUp()
         counter++;
         counter++;
         counter++; 
-        counterLock.unlock();          
+        Lock.unlock();          
     }  
     green_led = 0; 
     
@@ -57,7 +57,7 @@ void countDown()
     //YELLOW MEANS THE COUNT DOWN FUNCTION IS IN ITS CRITICAL SECTION
     yellow_led = 1;
     for (unsigned int n=0; n<N; n++) {
-        counterLock.lock();
+        Lock.lock();
         counter--;
         counter--;
         counter--;
@@ -68,7 +68,7 @@ void countDown()
         counter--;
         counter--;
         counter--;   
-        counterLock.unlock();        
+        Lock.unlock();        
     }
     yellow_led = 0;
     
@@ -95,23 +95,23 @@ int main() {
         t2.start(countDown);
 
         //INDUCE A DEADLOCK
-        counterLock.lock(); // Add one extra lock (oops)
+        Lock.lock(); // Add one extra lock (oops)
         t1.join();  //Wait for t1 to complete
         t2.join();  //Wait for t2 to complete
-        counterLock.unlock(); //Release again
+        Lock.unlock(); //Release again
     }
     
     //Did the counter end up at zero?
     backLight = 1;
     disp.locate(1, 0);
 
-    counterLock.lock(); //Pedantic, but setting an example :)
+    Lock.lock(); //Pedantic, but setting an example :)
     disp.printf("Counter=%Ld\n", counter);
 
     if (counter == 0) {
         red_led = 0;   
     }
-    counterLock.unlock();   
+    Lock.unlock();   
 
     //Now wait forever
     while (true) {
